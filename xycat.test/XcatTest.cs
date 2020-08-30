@@ -1,7 +1,7 @@
-using System;
 using System.IO;
 using NUnit.Framework;
 using FluentAssertions;
+using System.Collections.Generic;
 
 namespace xycat.test
 {
@@ -36,13 +36,32 @@ namespace xycat.test
         [Test]
         public void ChecksNumberOfCommandLineArgs()
         {
-            true.Should().BeTrue();
+            string xcat = GetXcatPath();
+
+            var (rc, stdOut, stdErr) = Helper.Exec(xcat, new List<string>());
+
+            rc.Should().Be(1);
+
+            stdErr.Should().Contain("Option '--dir' is required");
+            stdErr.Should().Contain("Option '--file' is required");
+
+            stdOut.Should().Contain("xcat:");
+            stdOut.Should().Contain("Weakly encrypt a directory's contents and store in a file.");
+            stdOut.Should().Contain("Usage:");
+            stdOut.Should().Contain("xcat [options]");
+            stdOut.Should().Contain("Options:");
+            stdOut.Should().Contain("--dir <dir> (REQUIRED)      the directory to weakly encrypt");
+            stdOut.Should().Contain("--file <file> (REQUIRED)    the file to hold the directory's contents");
+            stdOut.Should().Contain("--version                   Show version information");
+            stdOut.Should().Contain("-?, -h, --help              Show help and usage information");
         }
 
-        [Test]
-        public void atest()
+        private static string GetXcatPath()
         {
-            1.Should().Be(1);
+            var xcat = Path.Combine(TestContext.CurrentContext.TestDirectory, "..", "..", "..");
+            xcat = Path.Combine(xcat, "xcat", "bin", "netcoreapp3.1");
+            xcat = Path.Combine(xcat, "xcat");
+            return xcat;
         }
     }
 }

@@ -1,6 +1,11 @@
 using System.IO;
+using System.Collections.ObjectModel;
 using NUnit.Framework;
 using FluentAssertions;
+using System.Diagnostics;
+using System.Collections.Generic;
+using System.Text;
+using System;
 
 public class Helper
 {
@@ -10,6 +15,44 @@ public class Helper
     {
         foreach (var f in directory.EnumerateFiles()) { f.Delete(); }
         foreach (var d in directory.GetDirectories()) { d.Delete(true); }
+    }
+
+    public static (int returnCode, string standardOut, string standardError) Exec(string fileName, List<string> arguments)
+    {
+        Console.WriteLine($"Exec '{fileName}' {string.Join(" ", arguments)}");
+
+        var psi = new ProcessStartInfo();
+        psi.FileName = fileName;
+        psi.Arguments = "";
+        arguments.ForEach(a => psi.ArgumentList.Add(a));
+        psi.WorkingDirectory = Path.GetDirectoryName(fileName);
+        psi.CreateNoWindow = true;
+        psi.UseShellExecute = false;
+
+        var sbStdOut = new StringBuilder();
+        var sbStdErr = new StringBuilder();
+
+        psi.RedirectStandardOutput = true;
+        psi.RedirectStandardError = true;
+
+        using (var proc = new Process())
+        {
+            proc.StartInfo = psi;
+            proc.EnableRaisingEvents = true;
+            proc.OutputDataReceived += new DataReceivedEventHandler((sender, e) => { sbStdOut.AppendLine(e.Data); });
+            proc.ErrorDataReceived += new DataReceivedEventHandler((sender, e) => { sbStdErr.AppendLine(e.Data); });
+
+            proc.Start();
+
+            proc.BeginOutputReadLine();
+            proc.BeginErrorReadLine();
+
+            proc.WaitForExit();
+
+            Console.WriteLine($"rc {proc.ExitCode}");
+
+            return (proc.ExitCode, sbStdOut.ToString().Trim(), sbStdErr.ToString().Trim());
+        }
     }
 
     public static void FileAssert(FileInfo actualFile, FileInfo expectedFile)
