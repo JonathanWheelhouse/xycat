@@ -116,7 +116,8 @@ namespace ycat
             var paths = pathlines.Select(l => Between(l, "[", "]")).ToList();
             var smallestPath = paths.OrderBy(d => d.Length).First();
 
-            var indexDirSep = smallestPath.LastIndexOfAny(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar });
+            // FIXME: not always correct
+            var indexDirSep = smallestPath.LastIndexOfAny(new char[] { '\\', '/' });
 
             var smallestDir = smallestPath.Substring(0, indexDirSep);
             Console.WriteLine($"Source top level directory: {smallestDir}");
