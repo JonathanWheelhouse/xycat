@@ -116,7 +116,7 @@ public class Helper
 
     private static string GetfileName(string path)
     {
-        var indexDirSep = path.LastIndexOfAny(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar });
+        var indexDirSep = path.LastIndexOfAny(new char[] { '\\', '/' });
         return path.Substring(indexDirSep + 1);
     }
 }
