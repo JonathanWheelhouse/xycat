@@ -34,11 +34,11 @@ namespace xycat.test
         }
 
         [Test]
-        public void ChecksNumberOfCommandLineArgs()
+        public void CheckNumberOfCommandLineArgs()
         {
-            string xcat = GetXcatPath();
+            var exe = GetXcatPath();
 
-            var (rc, stdOut, stdErr) = Helper.Exec(xcat, new List<string>());
+            var (rc, stdOut, stdErr) = Helper.Exec(exe, new List<string>());
 
             rc.Should().Be(1);
 
@@ -58,10 +58,10 @@ namespace xycat.test
 
         private static string GetXcatPath()
         {
-            var xcat = Path.Combine(TestContext.CurrentContext.TestDirectory, "..", "..", "..");
-            xcat = Path.Combine(xcat, "xcat", "bin", "netcoreapp3.1");
-            xcat = Path.Combine(xcat, "xcat");
-            return xcat;
+            var exe = Path.Combine(TestContext.CurrentContext.TestDirectory, "..", "..", "..");
+            exe = Path.Combine(exe, "xcat", "bin", "netcoreapp3.1");
+            exe = Path.Combine(exe, "xcat");
+            return exe;
         }
     }
 }
