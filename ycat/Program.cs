@@ -33,7 +33,7 @@ namespace ycat
             return rootCommand.InvokeAsync(args).Result;
         }
 
-        protected static void Main2(FileInfo file, DirectoryInfo destDir)
+        public static void Main2(FileInfo file, DirectoryInfo destDir)
         {
             var txt = File.ReadAllText(file.FullName);
 

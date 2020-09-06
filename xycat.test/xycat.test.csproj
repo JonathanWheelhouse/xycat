@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\xcat\xcat.csproj" />
+    <ProjectReference Include="..\ycat\ycat.csproj" />
   </ItemGroup>
 
 </Project>

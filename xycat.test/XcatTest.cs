@@ -15,11 +15,11 @@ namespace xycat.test
             // ... directory to encrypt
             var dir = new DirectoryInfo($"{Helper.GetTestDataDirectory}{Path.DirectorySeparatorChar}adir");
 
-            var outdir = new DirectoryInfo($"{Helper.GetTestDataDirectory}{Path.DirectorySeparatorChar}out");
-            Helper.EmptyDirectory(outdir);
+            var outDir = new DirectoryInfo($"{Helper.GetTestDataDirectory}{Path.DirectorySeparatorChar}out");
+            Helper.EmptyDirectory(outDir);
 
             // ... file to store the encyrpted contents of the directory
-            var file = new FileInfo($"{outdir}{Path.DirectorySeparatorChar}rot13.txt");
+            var file = new FileInfo($"{outDir}{Path.DirectorySeparatorChar}rot13.txt");
 
             // act
             xcat.Program.Main2(dir, file);
@@ -36,7 +36,7 @@ namespace xycat.test
         [Test]
         public void CheckNumberOfCommandLineArgs()
         {
-            var exe = GetXcatPath();
+            var exe = GetExePath();
 
             var (rc, stdOut, stdErr) = Helper.Exec(exe, new List<string>());
 
@@ -56,7 +56,7 @@ namespace xycat.test
             stdOut.Should().Contain("-?, -h, --help              Show help and usage information");
         }
 
-        private static string GetXcatPath()
+        private static string GetExePath()
         {
             var exe = Path.Combine(TestContext.CurrentContext.TestDirectory, "..", "..", "..");
             exe = Path.Combine(exe, "xcat", "bin", "netcoreapp3.1");

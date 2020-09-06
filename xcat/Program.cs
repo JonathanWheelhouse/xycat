@@ -47,21 +47,19 @@ namespace xcat
                 .OrderBy(f => f.FullName)
                 .ToList()
                 .ForEach(f =>
-               {
-                   Console.WriteLine(f.FullName);
+                {
+                    Console.WriteLine(f.FullName);
 
-                   sb.AppendLine();
-                   sb.AppendLine();
-                   sb.AppendLine();
-                   sb.AppendLine();
-                   sb.AppendLine($">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [{f.FullName}]");
-                   sb.AppendLine(File.ReadAllText(f.FullName));
-                   sb.AppendLine($"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< [{f.FullName}]");
-               });
+                    sb.AppendLine();
+                    sb.AppendLine();
+                    sb.AppendLine();
+                    sb.AppendLine();
+                    sb.AppendLine($">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [{f.FullName}]");
+                    sb.AppendLine(File.ReadAllText(f.FullName));
+                    sb.AppendLine($"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< [{f.FullName}]");
+                });
 
             var txt = Rot13(sb.ToString());
-
-            //txt = Rot13(txt) ;
 
             using (StreamWriter sw = file.CreateText())
             {
