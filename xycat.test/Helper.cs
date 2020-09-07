@@ -13,8 +13,8 @@ public class Helper
 
     public static void EmptyDirectory(DirectoryInfo directory)
     {
-        foreach (var f in directory.EnumerateFiles()) { f.Delete(); }
-        foreach (var d in directory.GetDirectories()) { d.Delete(true); }
+        directory.Delete(true);
+        directory.Create();
     }
 
     public static (int returnCode, string standardOut, string standardError) Exec(string fileName, List<string> arguments)
