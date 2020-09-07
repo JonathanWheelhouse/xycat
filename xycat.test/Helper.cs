@@ -13,7 +13,8 @@ public class Helper
 
     public static void EmptyDirectory(DirectoryInfo directory)
     {
-        directory.Delete(true);
+        if (directory.Exists)
+            directory.Delete(true);
         directory.Create();
     }
 
