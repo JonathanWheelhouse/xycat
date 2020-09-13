@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+<!--
+localhost
+dotnet msbuild build.proj -t:clean,build,test -v:n
+
+github actions
+dotnet msbuild build.proj -t:clean,build,test -verbosity:normal
+-->
+
+    <PropertyGroup>
+        <Solution>$(MSBuildProjectDirectory)/xycat.sln</Solution>
+        <TestDir>$(MSBuildProjectDirectory)/xycat.test</TestDir>
+
+        <Configuration Condition="'$(Configuration)' == '' ">Debug</Configuration>
+        <Platform      Condition="'$(Platform)'      == '' ">x64</Platform>
+
+    </PropertyGroup>
+
+    <Target Name="clean" >
+        <ItemGroup>
+            <FoldersToDelete Include="$( [System.IO.Directory]::GetDirectories( &quot;.&quot;,&quot;obj&quot;,SearchOption.AllDirectories ) )"/>
+            <FoldersToDelete Include="$( [System.IO.Directory]::GetDirectories( &quot;.&quot;,&quot;bin&quot;,SearchOption.AllDirectories ) )"/>
+            <FoldersToDelete Include="$( [System.IO.Directory]::GetDirectories( &quot;.&quot;,&quot;lib&quot;,SearchOption.AllDirectories ) )"/>
+        </ItemGroup>
+        <RemoveDir Directories="@(FoldersToDelete)" />
+    </Target>
+
+    <Target Name="build">
+        <Message Text="Configuration: $(Configuration)"/>
+        <Message Text="Platform: $(Platform)"/>
+        <Exec Command="dotnet build $(Solution)" />
+    </Target>
+
+    <Target Name="test">
+        <Exec Command="dotnet test $(TestDir) -l &quot;console;verbosity=detailed&quot; --no-restore" />
+    </Target>
+</Project>

@@ -1,28 +1,24 @@
 name: .NET Core
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    push:
+        branches: [master]
+    pull_request:
+        branches: [master]
 
 jobs:
-  build:
-    name: Build on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest, ubuntu-latest]
+    build:
+        name: Build on ${{ matrix.os }}
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [windows-latest, ubuntu-latest]
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1.6.0
-      with:
-        dotnet-version: 3.1.301
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test xycat.test/ -l "console;verbosity=detailed" --no-restore --verbosity normal
+        steps:
+            - uses: actions/checkout@v2
+            - name: Setup .NET Core
+              uses: actions/setup-dotnet@v1.6.0
+              with:
+                  dotnet-version: 3.1.301
+            - name: Build and test
+              run: dotnet msbuild build.proj -t:clean,build,test -v:n
