@@ -6,7 +6,7 @@ localhost
 dotnet msbuild build.proj -t:clean,build,test -v:n
 
 github actions
-dotnet msbuild build.proj -t:clean,build,test -verbosity:normal
+dotnet msbuild build.proj -t:clean,build,test -p:Configuration=Release -verbosity:normal
 -->
 
     <PropertyGroup>
