@@ -35,6 +35,6 @@ dotnet msbuild build.proj -t:clean,build,test -p:Configuration=Release -verbosit
     </Target>
 
     <Target Name="test">
-        <Exec Command="dotnet test $(TestDir) -l &quot;console;verbosity=detailed&quot; --no-restore" />
+        <Exec Command="dotnet test $(TestDir) -l &quot;console;verbosity=normal&quot; --no-restore --no-build" />
     </Target>
 </Project>
