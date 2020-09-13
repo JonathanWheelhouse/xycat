@@ -19,6 +19,7 @@ dotnet msbuild build.proj -t:clean,build,test -verbosity:normal
     </PropertyGroup>
 
     <Target Name="clean" >
+        <Exec Command="dotnet clean $(Solution)" />
         <ItemGroup>
             <FoldersToDelete Include="$( [System.IO.Directory]::GetDirectories( &quot;.&quot;,&quot;obj&quot;,SearchOption.AllDirectories ) )"/>
             <FoldersToDelete Include="$( [System.IO.Directory]::GetDirectories( &quot;.&quot;,&quot;bin&quot;,SearchOption.AllDirectories ) )"/>
