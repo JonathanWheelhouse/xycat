@@ -55,9 +55,9 @@ namespace xcat
                     sb.AppendLine();
                     sb.AppendLine();
                     sb.AppendLine();
-                    sb.AppendLine($">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [{f.FullName}]");
+                    sb.AppendLine($"{Constant.StartLine} {Constant.StartChar}{f.FullName}{Constant.EndChar}");
                     sb.AppendLine(File.ReadAllText(f.FullName));
-                    sb.AppendLine($"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< [{f.FullName}]");
+                    sb.AppendLine($"{Constant.EndLine} {Constant.StartChar}{f.FullName}{Constant.EndChar}");
                 });
 
             var txt = Cipher.Rot13(sb.ToString());

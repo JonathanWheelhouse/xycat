@@ -40,9 +40,7 @@ namespace ycat
 
             var unrot13 = Cipher.Rot13(txt);
 
-            const string startLine = ">>>>>>>>>>";
-            const string endLine = "<<<<<<<<<<";
-            var sourceTopLevelDirectory = GetSourceTopLevelDirectory(unrot13, startLine);
+            var sourceTopLevelDirectory = GetSourceTopLevelDirectory(unrot13, Constant.StartLine);
 
             var lines = unrot13.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
             var lines2 = lines.SkipWhile(l => string.IsNullOrEmpty(l));
@@ -51,7 +49,7 @@ namespace ycat
             var fileLines = lines2
                 .Aggregate(new[] { new List<string>() }.ToList(), (a, line) =>
                 {
-                    if (line.StartsWith(startLine) && a.Last().Any())
+                    if (line.StartsWith(Constant.StartLine) && a.Last().Any())
                         a.Add(new List<string>());
                     a.Last().Add(line);
                     return a;
@@ -61,9 +59,9 @@ namespace ycat
             fileLines.ForEach(f =>
             {
                 // get source path
-                var fileLines2 = f.SkipWhile(l => !l.StartsWith(startLine));
+                var fileLines2 = f.SkipWhile(l => !l.StartsWith(Constant.StartLine));
                 var pathLine = fileLines2.First();
-                var path = Between(pathLine, "[", "]");
+                var path = Between(pathLine, Constant.StartChar, Constant.EndChar);
 
                 // transform path to operating system file path with dest folder
                 var destPath = path.Replace(sourceTopLevelDirectory, "");
@@ -75,7 +73,7 @@ namespace ycat
                 // write the file
                 var fileLines3 = fileLines2
                     .Skip(1)  // skip pathLine
-                    .TakeWhile(l => !l.StartsWith(endLine)); // skip endLine
+                    .TakeWhile(l => !l.StartsWith(Constant.EndLine)); // skip endLine
                 var dir = Path.GetDirectoryName(destPath);
                 Directory.CreateDirectory(dir);
                 File.WriteAllLines(destPath, fileLines3);
@@ -86,7 +84,7 @@ namespace ycat
         {
             var list = new List<string>(Regex.Split(unrot13, Environment.NewLine));
             var pathlines = list.Where(l => l.StartsWith(startLine)).ToList();
-            var paths = pathlines.Select(l => Between(l, "[", "]")).ToList();
+            var paths = pathlines.Select(l => Between(l, Constant.StartChar, Constant.EndChar)).ToList();
             var smallestPath = paths.OrderBy(d => d.Length).First();
 
             // FIXME: not always correct
@@ -100,7 +98,7 @@ namespace ycat
         /// <summary>
         /// Get string value between [first] a and [last] b.
         /// </summary>
-        private static string Between(string value, string a, string b)
+        private static string Between(string value, string a, string b = "]")
         {
             int posA = value.IndexOf(a);
             int posB = value.LastIndexOf(b);
