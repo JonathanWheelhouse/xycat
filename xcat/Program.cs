@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using xycat.common;
 
 namespace xcat
 {
@@ -59,7 +60,7 @@ namespace xcat
                     sb.AppendLine($"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< [{f.FullName}]");
                 });
 
-            var txt = Rot13(sb.ToString());
+            var txt = Cipher.Rot13(sb.ToString());
 
             using (StreamWriter sw = file.CreateText())
             {
@@ -96,35 +97,5 @@ namespace xcat
 
             return found;
         }
-
-        protected static string Rot13(string value)
-        {
-            char[] array = value.ToCharArray();
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                int number = (int)array[i];
-
-                if (number >= 'a' && number <= 'z')
-                {
-                    if (number > 'm')
-                        number -= 13;
-                    else
-                        number += 13;
-                }
-                else
-                if (number >= 'A' && number <= 'Z')
-                {
-                    if (number > 'M')
-                        number -= 13;
-                    else
-                        number += 13;
-                }
-                array[i] = (char)number;
-            }
-            return new string(array);
-        }
-
-
     } // end class ;
 }

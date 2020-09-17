@@ -5,6 +5,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using xycat.common;
 
 namespace ycat
 {
@@ -37,7 +38,7 @@ namespace ycat
         {
             var txt = File.ReadAllText(file.FullName);
 
-            var unrot13 = Rot13(txt);
+            var unrot13 = Cipher.Rot13(txt);
 
             const string startLine = ">>>>>>>>>>";
             const string endLine = "<<<<<<<<<<";
@@ -79,34 +80,6 @@ namespace ycat
                 Directory.CreateDirectory(dir);
                 File.WriteAllLines(destPath, fileLines3);
             });
-        }
-
-        protected static string Rot13(string value)
-        {
-            char[] array = value.ToCharArray();
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                int number = (int)array[i];
-
-                if (number >= 'a' && number <= 'z')
-                {
-                    if (number > 'm')
-                        number -= 13;
-                    else
-                        number += 13;
-                }
-                else
-                    if (number >= 'A' && number <= 'Z')
-                {
-                    if (number > 'M')
-                        number -= 13;
-                    else
-                        number += 13;
-                }
-                array[i] = (char)number;
-            }
-            return new string(array);
         }
 
         private static string GetSourceTopLevelDirectory(string unrot13, string startLine)

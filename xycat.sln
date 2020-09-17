@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ycat", "ycat\ycat.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xycat.test", "xycat.test\xycat.test.csproj", "{04EAF86E-C3C0-4998-A98E-D4CA5876061F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xycat.common", "xycat.common\xycat.common.csproj", "{6A33382D-1FA8-450F-9B3B-D5513748FA42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,5 +60,17 @@ Global
 		{04EAF86E-C3C0-4998-A98E-D4CA5876061F}.Release|x64.Build.0 = Release|Any CPU
 		{04EAF86E-C3C0-4998-A98E-D4CA5876061F}.Release|x86.ActiveCfg = Release|Any CPU
 		{04EAF86E-C3C0-4998-A98E-D4CA5876061F}.Release|x86.Build.0 = Release|Any CPU
+		{6A33382D-1FA8-450F-9B3B-D5513748FA42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A33382D-1FA8-450F-9B3B-D5513748FA42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A33382D-1FA8-450F-9B3B-D5513748FA42}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6A33382D-1FA8-450F-9B3B-D5513748FA42}.Debug|x64.Build.0 = Debug|Any CPU
+		{6A33382D-1FA8-450F-9B3B-D5513748FA42}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6A33382D-1FA8-450F-9B3B-D5513748FA42}.Debug|x86.Build.0 = Debug|Any CPU
+		{6A33382D-1FA8-450F-9B3B-D5513748FA42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A33382D-1FA8-450F-9B3B-D5513748FA42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A33382D-1FA8-450F-9B3B-D5513748FA42}.Release|x64.ActiveCfg = Release|Any CPU
+		{6A33382D-1FA8-450F-9B3B-D5513748FA42}.Release|x64.Build.0 = Release|Any CPU
+		{6A33382D-1FA8-450F-9B3B-D5513748FA42}.Release|x86.ActiveCfg = Release|Any CPU
+		{6A33382D-1FA8-450F-9B3B-D5513748FA42}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
