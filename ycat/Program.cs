@@ -98,7 +98,7 @@ namespace ycat
         /// <summary>
         /// Get string value between [first] a and [last] b.
         /// </summary>
-        private static string Between(string value, string a, string b = "]")
+        private static string Between(string value, string a, string b)
         {
             int posA = value.IndexOf(a);
             int posB = value.LastIndexOf(b);
