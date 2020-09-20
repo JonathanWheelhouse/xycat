@@ -17,10 +17,31 @@ dotnet msbuild build.proj -t:clean,build,test -p:Configuration=Release -verbosit
         <Platform      Condition="'$(Platform)'      == '' ">x64</Platform>
 
     </PropertyGroup>
+    <Choose>
+        <When Condition="$([MSBuild]::IsOsPlatform('Linux'))" >
+            <PropertyGroup>
+                <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+            </PropertyGroup>
+        </When>
+        <When Condition="$([MSBuild]::IsOsPlatform('Windows'))" >
+            <PropertyGroup>
+                <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+            </PropertyGroup>
+        </When>
+    </Choose>
+
+    <Target Name="os">
+        <Message Text="RuntimeIdentifier: '$(RuntimeIdentifier)'" Importance="high" />
+        <Message Text="OS: '$(OS)'" Importance="high" />
+        <Message Text="Linux? $([MSBuild]::IsOsPlatform('Linux'))" Importance="high" />
+        <Message Text="Unix? $([MSBuild]::IsOsPlatform('Unix'))" Importance="high" />
+        <Message Text="Windows? $([MSBuild]::IsOsPlatform('Windows'))" Importance="high" />
+        <Message Text="OSX? $([MSBuild]::IsOsPlatform('OSX'))" Importance="high" />
+    </Target>
 
     <Target Name="clean" >
-        <Exec Command="dotnet clean $(Solution)" />
         <ItemGroup>
+            <FoldersToDelete Include="$( [System.IO.Directory]::GetDirectories( &quot;.&quot;,&quot;publish&quot;,SearchOption.AllDirectories ) )"/>
             <FoldersToDelete Include="$( [System.IO.Directory]::GetDirectories( &quot;.&quot;,&quot;obj&quot;,SearchOption.AllDirectories ) )"/>
             <FoldersToDelete Include="$( [System.IO.Directory]::GetDirectories( &quot;.&quot;,&quot;bin&quot;,SearchOption.AllDirectories ) )"/>
             <FoldersToDelete Include="$( [System.IO.Directory]::GetDirectories( &quot;.&quot;,&quot;lib&quot;,SearchOption.AllDirectories ) )"/>
@@ -36,5 +57,13 @@ dotnet msbuild build.proj -t:clean,build,test -p:Configuration=Release -verbosit
 
     <Target Name="test">
         <Exec Command="dotnet test $(TestDir) -l &quot;console;verbosity=normal&quot; --no-restore --no-build" />
+    </Target>
+
+    <Target Name="publish">
+        <ItemGroup>
+            <Exe Include="xcat" />
+            <Exe Include="ycat" />
+        </ItemGroup>
+        <Exec Command="dotnet publish %(Exe.Identity) -r $(RuntimeIdentifier) -o publish -p:PublishSingleFile=true -p:PublishTrimmed=true --self-contained true" />
     </Target>
 </Project>

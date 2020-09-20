@@ -21,7 +21,7 @@ Decrypt a weakly encrypted file into its subdirectories and files in a specified
 `dotnet test xycat.test/xycat.test.csproj -l "console;verbosity=detailed" --runtime linux-x64 --no-build`
 
 
-
-`dotnet publish ycat/ycat.csproj -c Release -o bin/ycat -p:PublishReadyToRun=true -p:PublishSingleFile=true -p:PublishTrimmed=true -r linux-x64 --self-contained true`
+`dotnet publish xcat -r linux-x64  -o publish/linux-x64   -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:PublishTrimmed=true --self-contained true`
+`dotnet publish ycat -r linux-x64 -c Release -o bin/ycat  -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:PublishTrimmed=true --self-contained true`
 
 `dotnet publish -c Release -r linux-x64`
