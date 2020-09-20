@@ -23,4 +23,4 @@ jobs:
               with:
                   dotnet-version: 3.1.301
             - name: Build and test
-              run: dotnet msbuild build.proj -t:clean,build,test -p:Configuration=Release -v:n
+              run: dotnet msbuild build.proj -t:clean,build,test,publish -p:Configuration=Release -v:n
