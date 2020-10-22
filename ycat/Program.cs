@@ -76,6 +76,8 @@ namespace ycat
                     .TakeWhile(l => !l.StartsWith(Constant.EndLine)); // skip endLine
                 var dir = Path.GetDirectoryName(destPath);
                 Directory.CreateDirectory(dir);
+
+                Console.WriteLine($"Writing {destPath}");
                 File.WriteAllLines(destPath, fileLines3);
             });
         }
