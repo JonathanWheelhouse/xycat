@@ -59,7 +59,7 @@ namespace xycat.test
         private static string GetExePath()
         {
             var exe = Path.Combine(TestContext.CurrentContext.TestDirectory, "..", "..", "..");
-            exe = Path.Combine(exe, "xcat", "bin", "netcoreapp3.1");
+            exe = Path.Combine(exe, "xcat", "bin", "net5.0");
             exe = Path.Combine(exe, "xcat");
             return exe;
         }

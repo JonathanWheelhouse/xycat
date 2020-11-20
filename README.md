@@ -10,6 +10,12 @@ Weakly encrypt a directory's contents; store in a file.
 
 Decrypt a weakly encrypted file into its subdirectories and files in a specified directory.
 
+## msbuild
+
+See build.proj
+
+`dotnet msbuild build.proj -t:clean,build,test -v:n`
+
 ## dotnet
 
 `cd xycat`

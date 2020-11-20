@@ -24,7 +24,7 @@
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
-        },  
+        },
         {
             "label": "build ycat",
             "command": "dotnet",
@@ -37,7 +37,18 @@
             ],
             "problemMatcher": "$msCompile"
         },
-        
+        {
+            "label": "build xycat.test",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/xycat.test/xycat.test.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
         {
             "label": "publish",
             "command": "dotnet",
