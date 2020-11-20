@@ -1,6 +1,6 @@
 # xycat
 
-![.NET Core](https://github.com/JonathanWheelhouse/xycat/workflows/.NET%20Core/badge.svg)
+![.NET](https://github.com/JonathanWheelhouse/xycat/workflows/.NET%20Core/badge.svg)
 
 ## xcat
 
