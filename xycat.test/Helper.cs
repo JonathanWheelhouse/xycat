@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
 using System;
+using xycat.common;
 
 public class Helper
 {
@@ -63,27 +64,23 @@ public class Helper
 
         actualFileLines.Length.Should().Be(expectedFileLines.Length);
 
-        // FIXME: these 2 lines should go in a library constants file
-        var startLine = new string('>', 82);
-        var endLine = new string('<', 82);
-
         for (var i = 0; i < expectedFileLines.Length; i++)
         {
             var expLine = expectedFileLines[i];
             var actLine = actualFileLines[i];
 
             // assert start and end lines delimiting files; file names
-            if (expLine.StartsWith(startLine))
+            if (expLine.StartsWith(Constant.StartLine))
             {
-                actLine.Should().StartWith(startLine);
+                actLine.Should().StartWith(Constant.StartLine);
 
                 AssertFileName(actLine, expLine);
 
                 continue;
             }
-            if (expLine.StartsWith(endLine))
+            if (expLine.StartsWith(Constant.EndLine))
             {
-                actLine.Should().StartWith(endLine);
+                actLine.Should().StartWith(Constant.EndLine);
 
                 AssertFileName(actLine, expLine);
 
