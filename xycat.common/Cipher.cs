@@ -12,22 +12,14 @@ namespace xycat.common
             {
                 int number = (int)array[i];
 
-                if (number >= 'a' && number <= 'z')
+                var transposed = number switch
                 {
-                    if (number > 'm')
-                        number -= 13;
-                    else
-                        number += 13;
-                }
-                else
-                    if (number >= 'A' && number <= 'Z')
-                {
-                    if (number > 'M')
-                        number -= 13;
-                    else
-                        number += 13;
-                }
-                array[i] = (char)number;
+                    _ when (number >= 'a' && number <= 'z') => number > 'm' ? number - 13 : number + 13,
+                    _ when (number >= 'A' && number <= 'Z') => number > 'M' ? number - 13 : number + 13,
+                    _ => number
+                };
+
+                array[i] = (char)transposed;
             }
             return new string(array);
         }
