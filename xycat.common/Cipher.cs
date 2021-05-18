@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace xycat.common
 {
@@ -14,8 +14,8 @@ namespace xycat.common
 
                 var transposed = number switch
                 {
-                    _ when number is >= 'a' and <= 'z' => number > 'm' ? number - 13 : number + 13,
-                    _ when number is >= 'A' and <= 'Z' => number > 'M' ? number - 13 : number + 13,
+                    >= 'a' and <= 'z' => number > 'm' ? number - 13 : number + 13,
+                    >= 'A' and <= 'Z' => number > 'M' ? number - 13 : number + 13,
                     _ => number
                 };
 
