@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace xycat.common
 {
@@ -6,21 +7,20 @@ namespace xycat.common
     {
         public static string Rot13(string value)
         {
-            char[] array = value.ToCharArray();
+            var array = value
+                .ToCharArray()
+                .Select(c => c switch
+               {
+                   >= 'a' and <= 'z' when c  > 'm' => Convert.ToChar(c - 13),
+                   >= 'a' and <= 'z' when c <= 'm' => Convert.ToChar(c + 13),
 
-            for (int i = 0; i < array.Length; i++)
-            {
-                int number = (int)array[i];
+                   >= 'A' and <= 'Z' when c  > 'M' => Convert.ToChar(c - 13),
+                   >= 'A' and <= 'Z' when c <= 'M' => Convert.ToChar(c + 13),
 
-                var transposed = number switch
-                {
-                    >= 'a' and <= 'z' => number > 'm' ? number - 13 : number + 13,
-                    >= 'A' and <= 'Z' => number > 'M' ? number - 13 : number + 13,
-                    _ => number
-                };
+                   _ => Convert.ToChar(c)
+               })
+               .ToArray();
 
-                array[i] = (char)transposed;
-            }
             return new string(array);
         }
     }
