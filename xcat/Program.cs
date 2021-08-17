@@ -62,10 +62,8 @@ namespace xcat
 
             var txt = Cipher.Rot13(sb.ToString());
 
-            using (StreamWriter sw = file.CreateText())
-            {
-                sw.Write(txt);
-            }
+            using StreamWriter sw = file.CreateText();
+            sw.Write(txt);
         }
 
         protected static bool IsGood(string filename)

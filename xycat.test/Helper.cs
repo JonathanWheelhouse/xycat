@@ -37,24 +37,22 @@ public class Helper
         psi.RedirectStandardOutput = true;
         psi.RedirectStandardError = true;
 
-        using (var proc = new Process())
-        {
-            proc.StartInfo = psi;
-            proc.EnableRaisingEvents = true;
-            proc.OutputDataReceived += new DataReceivedEventHandler((sender, e) => { sbStdOut.AppendLine(e.Data); });
-            proc.ErrorDataReceived += new DataReceivedEventHandler((sender, e) => { sbStdErr.AppendLine(e.Data); });
+        using var proc = new Process();
+        proc.StartInfo = psi;
+        proc.EnableRaisingEvents = true;
+        proc.OutputDataReceived += new DataReceivedEventHandler((sender, e) => { sbStdOut.AppendLine(e.Data); });
+        proc.ErrorDataReceived += new DataReceivedEventHandler((sender, e) => { sbStdErr.AppendLine(e.Data); });
 
-            proc.Start();
+        proc.Start();
 
-            proc.BeginOutputReadLine();
-            proc.BeginErrorReadLine();
+        proc.BeginOutputReadLine();
+        proc.BeginErrorReadLine();
 
-            proc.WaitForExit();
+        proc.WaitForExit();
 
-            Console.WriteLine($"rc {proc.ExitCode}");
+        Console.WriteLine($"rc {proc.ExitCode}");
 
-            return (proc.ExitCode, sbStdOut.ToString().Trim(), sbStdErr.ToString().Trim());
-        }
+        return (proc.ExitCode, sbStdOut.ToString().Trim(), sbStdErr.ToString().Trim());
     }
 
     public static void FileAssert(FileInfo actualFile, FileInfo expectedFile)
