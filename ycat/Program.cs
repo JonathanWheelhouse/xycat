@@ -74,7 +74,8 @@ namespace ycat
                 var fileLines3 = fileLines2
                     .Skip(1)  // skip pathLine
                     .TakeWhile(l => !l.StartsWith(Constant.EndLine)); // skip endLine
-                var dir = Path.GetDirectoryName(destPath);
+
+                var dir = Path.GetDirectoryName(destPath) ?? throw new Exception($"Path.GetDirectoryName({destPath}) returned null");
                 Directory.CreateDirectory(dir);
 
                 Console.WriteLine($"Writing {destPath}");

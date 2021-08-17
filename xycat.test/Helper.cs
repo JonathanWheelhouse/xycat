@@ -27,7 +27,7 @@ public class Helper
         psi.FileName = fileName;
         psi.Arguments = "";
         arguments.ForEach(a => psi.ArgumentList.Add(a));
-        psi.WorkingDirectory = Path.GetDirectoryName(fileName);
+        psi.WorkingDirectory = Path.GetDirectoryName(fileName) ?? throw new Exception($"Path.GetDirectoryName({fileName}) returned null");
         psi.CreateNoWindow = true;
         psi.UseShellExecute = false;
 

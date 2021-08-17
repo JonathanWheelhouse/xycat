@@ -1,5 +1,6 @@
 <Project>
  <PropertyGroup>
+    <Nullable>enable</Nullable>
    <OutputPath>bin</OutputPath>
  </PropertyGroup>
 </Project>
