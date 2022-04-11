@@ -30,7 +30,7 @@ jobs:
 
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v2.3.4
+              uses: actions/checkout@v3
 
             # Initializes the CodeQL tools for scanning.
             - name: Initialize CodeQL
@@ -45,7 +45,7 @@ jobs:
             # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
             # If this step fails, then you should remove it and run the build manually (see below)
             - name: Setup .NET Core
-              uses: actions/setup-dotnet@v1.8.1
+              uses: actions/setup-dotnet@v2
               with:
                   dotnet-version: 6.0.x
             - name: Build
