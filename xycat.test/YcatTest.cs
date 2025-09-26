@@ -80,7 +80,7 @@ public class YcatTest
     private static string GetExePath()
     {
         var exe = Path.Combine(TestContext.CurrentContext.TestDirectory, "..", "..", "..");
-        exe = Path.Combine(exe, "ycat", "bin", "net6.0");
+        exe = Path.Combine(exe, "ycat", "bin", "net8.0");
         exe = Path.Combine(exe, "ycat");
         return exe;
     }
