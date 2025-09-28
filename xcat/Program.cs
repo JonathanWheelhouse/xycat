@@ -12,31 +12,40 @@ public class Program
     public static int Main(string[] args)
     {
 
-        var dir =  new Option<DirectoryInfo>("--dir", "the directory to weakly encrypt")
+        var dirOption =  new Option<DirectoryInfo>("--dir")
         {
-            IsRequired = true
+            Description = "the directory to weakly encrypt",
+            Required = true
         };
 
-        var  file = new Option<FileInfo>("--file", "the file to hold the directory's contents")
+        var  fileOption = new Option<FileInfo>("--file")
         {
-            IsRequired = true
+            Description = "the file to hold the directory's contents",
+            Required = true
         };
 
-        var rootCommand = new RootCommand
+        var rootCommand = new RootCommand("Weakly encrypt a directory's contents and store in a file.")
         {
-            dir,
-            file
+            dirOption,
+            fileOption
         };
 
-        rootCommand.Description = "Weakly encrypt a directory's contents and store in a file.";
+        rootCommand.SetAction(parseResult =>
+        {
+            DirectoryInfo? dir = parseResult.GetValue(dirOption);
+            FileInfo? file = parseResult.GetValue(fileOption);
+            return Main2(dir, file);
+        });
 
-        rootCommand.SetHandler((DirectoryInfo dir, FileInfo file) => Main2(dir, file), dir, file);
-
-        return rootCommand.InvokeAsync(args).Result;
+        var parseResult = rootCommand.Parse(args);
+        return parseResult.Invoke();
     }
 
-    public static void Main2(DirectoryInfo dir, FileInfo file)
+    public static int Main2(DirectoryInfo? dir, FileInfo? file)
     {
+        ArgumentNullException.ThrowIfNull(dir);
+        ArgumentNullException.ThrowIfNull(file);
+
         Console.WriteLine(dir.FullName);
 
         Console.WriteLine(file.FullName);
@@ -65,34 +74,37 @@ public class Program
 
         using StreamWriter sw = file.CreateText();
         sw.Write(txt);
+
+        return 0;
     }
+
+    private static readonly string[] SourceArray =
+    [
+        ".props",
+        ".csproj",
+        ".config",
+        ".cs",
+        ".sql",
+        ".pl",
+        ".proj",
+        ".sln",
+        ".nuspec",
+        ".json",
+        ".ps1",
+        ".sh",
+        ".bat",
+        ".cmd",
+        ".txt",
+        ".gitattributes",
+        ".editorconfig",
+        ".conf",
+        ".reg",
+        ".md"
+    ];
 
     protected static bool IsGood(string filename)
     {
-        var found = new string[]
-        {
-            ".props",
-            ".csproj",
-            ".config",
-            ".cs",
-            ".sql",
-            ".pl",
-            ".proj",
-            ".sln",
-            ".nuspec",
-            ".json",
-            ".ps1",
-            ".sh",
-            ".bat",
-            ".cmd",
-            ".txt",
-            ".gitattributes",
-            ".editorconfig",
-            ".conf",
-            ".reg",
-            ".md",
-        }
-        .Any(q => filename.ToLower().EndsWith(q));
+        var found = SourceArray.Any(q => filename.ToLower().EndsWith(q));
 
         return found;
     }

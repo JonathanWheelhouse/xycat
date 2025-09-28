@@ -12,31 +12,40 @@ public class Program
 {
     public static int Main(string[] args)
     {
-
-        var file =  new Option<FileInfo>("--file", "the file to decrypt")
+        var fileOption =  new Option<FileInfo>("--file")
         {
-            IsRequired = true
+            Description = "the file to decrypt",
+            Required = true
         };
-        var dir = new Option<DirectoryInfo>("--destDir", "the destination directory")
+        var dirOption = new Option<DirectoryInfo>("--destDir")
         {
-            IsRequired = true
-        };
-
-        var rootCommand = new RootCommand
-        {
-            file,
-            dir
+            Description = "the destination directory",
+            Required = true
         };
 
-        rootCommand.Description = "Decrypt a file into a directory.";
+        var rootCommand = new RootCommand("Decrypt a file into a directory.")
+        {
+            fileOption,
+            dirOption
+        };
 
-        rootCommand.SetHandler((FileInfo file, DirectoryInfo dir) => Main2(file, dir), file, dir);
+        rootCommand.SetAction(parseResult =>
+        {
+            FileInfo? file = parseResult.GetValue(fileOption);
+            DirectoryInfo? destDir = parseResult.GetValue(dirOption);
+            return Main2(file, destDir);
+        });
 
-        return rootCommand.InvokeAsync(args).Result;
+        var parseResult = rootCommand.Parse(args);
+
+        return parseResult.Invoke();
     }
 
-    public static void Main2(FileInfo file, DirectoryInfo destDir)
+    public static int Main2(FileInfo? file, DirectoryInfo? destDir)
     {
+        ArgumentNullException.ThrowIfNull(file);
+        ArgumentNullException.ThrowIfNull(destDir);
+
         var txt = File.ReadAllText(file.FullName);
 
         var unrot13 = Cipher.Rot13(txt);
@@ -60,7 +69,7 @@ public class Program
         fileLines.ForEach(f =>
         {
             // get source path
-            var fileLines2 = f.SkipWhile(l => !l.StartsWith(Constant.StartLine));
+            var fileLines2 = f.SkipWhile(l => !l.StartsWith(Constant.StartLine)).ToList();
             var pathLine = fileLines2.First();
             var path = Between(pathLine, Constant.StartChar, Constant.EndChar);
 
@@ -82,6 +91,7 @@ public class Program
             Console.WriteLine($"Writing {destPath}");
             File.WriteAllLines(destPath, fileLines3);
         });
+        return 0;
     }
 
     private static string GetSourceTopLevelDirectory(string unrot13, string startLine)
@@ -92,7 +102,7 @@ public class Program
         var smallestPath = paths.OrderBy(d => d.Length).First();
 
         // FIXME: not always correct
-        var indexDirSep = smallestPath.LastIndexOfAny(new char[] { '\\', '/' });
+        var indexDirSep = smallestPath.LastIndexOfAny(['\\', '/']);
 
         var smallestDir = smallestPath.Substring(0, indexDirSep);
         Console.WriteLine($"Source top level directory: {smallestDir}");
@@ -104,13 +114,13 @@ public class Program
     /// </summary>
     private static string Between(string value, string a, string b)
     {
-        int posA = value.IndexOf(a);
-        int posB = value.LastIndexOf(b);
+        var posA = value.IndexOf(a, StringComparison.Ordinal);
+        var posB = value.LastIndexOf(b, StringComparison.Ordinal);
         if (posA == -1)
             return "";
         if (posB == -1)
             return "";
-        int adjustedPosA = posA + a.Length;
+        var adjustedPosA = posA + a.Length;
         if (adjustedPosA >= posB)
             return "";
         return value.Substring(adjustedPosA, posB - adjustedPosA);
