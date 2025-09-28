@@ -113,6 +113,6 @@ public class Helper
     private static string GetfileName(string path)
     {
         var indexDirSep = path.LastIndexOfAny(new char[] { '\\', '/' });
-        return path.Substring(indexDirSep + 1);
+        return path[(indexDirSep + 1)..];
     }
 }
