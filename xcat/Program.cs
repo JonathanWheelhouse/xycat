@@ -7,7 +7,7 @@ using xycat.common;
 
 namespace xcat;
 
-public class Program
+public static class Program
 {
     public static int Main(string[] args)
     {
@@ -102,7 +102,7 @@ public class Program
         ".md"
     ];
 
-    protected static bool IsGood(string filename)
+    private static bool IsGood(string filename)
     {
         var found = SourceArray.Any(q => filename.ToLower().EndsWith(q));
 
