@@ -88,6 +88,7 @@ public static class Program
         ".pl",
         ".proj",
         ".sln",
+        "*.slnx",
         ".nuspec",
         ".json",
         ".ps1",
