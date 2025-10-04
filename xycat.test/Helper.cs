@@ -23,9 +23,11 @@ public class Helper
     {
         Console.WriteLine($"Exec '{fileName}' {string.Join(" ", arguments)}");
 
-        var psi = new ProcessStartInfo();
-        psi.FileName = fileName;
-        psi.Arguments = "";
+        var psi = new ProcessStartInfo
+        {
+            FileName = fileName,
+            Arguments = ""
+        };
         arguments.ForEach(a => psi.ArgumentList.Add(a));
         psi.WorkingDirectory = Path.GetDirectoryName(fileName) ?? throw new Exception($"Path.GetDirectoryName({fileName}) returned null");
         psi.CreateNoWindow = true;
@@ -40,8 +42,8 @@ public class Helper
         using var proc = new Process();
         proc.StartInfo = psi;
         proc.EnableRaisingEvents = true;
-        proc.OutputDataReceived += new DataReceivedEventHandler((sender, e) => { sbStdOut.AppendLine(e.Data); });
-        proc.ErrorDataReceived += new DataReceivedEventHandler((sender, e) => { sbStdErr.AppendLine(e.Data); });
+        proc.OutputDataReceived += (sender, e) => { sbStdOut.AppendLine(e.Data); };
+        proc.ErrorDataReceived += (sender, e) => { sbStdErr.AppendLine(e.Data); };
 
         proc.Start();
 
